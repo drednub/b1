@@ -1,0 +1,47 @@
+CountryDropdown.js
+function CountryDropdown(props) {
+function handleChange(event) {
+props.onSelect(event.target.value);
+}
+return (
+<select onChange={handleChange}>
+<option value="">Select a Country</option>
+{props.countries.map(function (country) {
+return (
+<option key={country.name} value={country.name}>
+{country.name}
+</option>
+);
+})}
+</select>
+);
+}
+export default CountryDropdown;
+App.js
+import React, { useState } from "react";
+import CountryDropdown from "./CountryDropdown";
+function App() {
+const [capital, setCapital] = useState("");
+const countries = [
+{ name: "United States", capital: "Washington, D.C." },
+{ name: "India", capital: "New Delhi" },
+{ name: "France", capital: "Paris" },
+{ name: "Germany", capital: "Berlin" },
+{ name: "Japan", capital: "Tokyo" },
+];
+function handleCountrySelect(countryName) {
+const country = countries.find(function (c) {
+return c.name === countryName;
+});
+setCapital(country ? country.capital : "");
+}
+return (
+<div>
+<h1>Country and Capital Finder</h1>
+<CountryDropdown countries={countries}
+onSelect={handleCountrySelect} />
+{capital && <p>Capital: {capital}</p>}
+</div>
+);
+}
+export default App;
